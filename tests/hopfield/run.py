@@ -16,8 +16,7 @@ from importlib import reload
 hebbian = reload(hopfield.hebbian)
 
 def get_predict(synch, dataframe,df_size):
-    elements = df_size[0]*df_size[1]
-    hebb = hebbian.hebbian(elements,synch)
+    hebb = hebbian.hebbian(df_size,synch)
     hebb.train([series for ind, series in dataframe.iterrows()])
     return hebb.predict
 
@@ -57,3 +56,12 @@ for i,img in imgs :
     fig.add_subplot(rows, columns, i+1)
     plt.imshow(img)
 plt.show()
+
+hebbian = reload(hopfield.hebbian)
+hebb = hebbian.hebbian(size ,True)
+hebb.train([series for ind, series in df.iterrows()])
+half = int((4*size[0]*size[1])/5)
+
+y=hebb.predict(x.copy())
+x=pd.concat([1+0*df.iloc[0][:half],df.iloc[0][half:]])
+hebb.visualize()
